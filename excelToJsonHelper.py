@@ -2,7 +2,7 @@
 #     pandas
 #     openpyxl
 
-from genericpath import isdir
+from genericpath import isdir, isfile
 import pandas as pd
 import sys
 import os
@@ -18,6 +18,7 @@ xlsFilePath = os.path.abspath(xlsFilePath)
 xlsFileName = os.path.splitext(os.path.normpath(os.path.basename(xlsFilePath)))[0]
 
 xlsParentDirPath = os.path.abspath(os.path.join(xlsFilePath, os.pardir))
+jsonFileParentDir = xlsParentDirPath
 
 xls = pd.ExcelFile(xlsFilePath)
 multiSheet = False
@@ -27,26 +28,36 @@ sheetCount = len(sheets)
 
 if sheetCount > 1:
     multiSheet = True
-    jsonFileParentDir = xlsParentDirPath + "/" + xlsFileName + "_jsonFiles"
+    jsonFileParentDir = jsonFileParentDir + "/" + xlsFileName + "_jsonFiles"
     if os.path.isdir(jsonFileParentDir):
         t = e = datetime.datetime.now()
         tFormatted = t.strftime("%Y%m%d_%H%M%S")
         jsonFileParentDir = xlsParentDirPath + "/" + xlsFileName + "_jsonFiles_" + tFormatted
+
     os.mkdir(jsonFileParentDir)
 
-print(jsonFileParentDir)
+for sheet in sheets:
+    df = pd.read_excel(xlsFilePath, sheet_name=sheet)
 
-# sheetsCount = sheets
-# for sheet in sheets:
-#     df = pd.read_excel(xlsFilePath, sheet_name=sheet)
+    jsonString = df.to_json()
 
-#     jsonString = df.to_json()
+    if multiSheet:
+        jsonFile = jsonFileParentDir + "/" + xlsFileName + "_" + sheet + ".json"
+    else:
+        jsonFile = jsonFileParentDir + "/" + xlsFileName + ".json"
+        if os.path.isfile(jsonFile):
+            t = e = datetime.datetime.now()
+            tFormatted = t.strftime("%Y%m%d_%H%M%S")
+            jsonFile = jsonFileParentDir + "/" + xlsFileName + "_" + tFormatted + ".json"
+       
+    
+    with open(jsonFile, 'w') as f:
+        f.write(jsonString)
 
-#     jsonFile = xlsParentDirPath + "/" + xlsFileName + "_" + sheet + ".json"
-#     with open(jsonFile, 'w') as f:
-#         f.write(jsonString)
-
-#     # Popup a finder window to locate the json file
-#     subprocess.call(["open", "-R", jsonFile])
+    # Popup a finder window to locate the json file
+    if multiSheet:
+        subprocess.call(["open", jsonFileParentDir])  
+    else:
+        subprocess.call(["open", "-R", jsonFile])
 
 
