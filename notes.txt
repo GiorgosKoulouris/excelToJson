@@ -1,0 +1,2 @@
+1) Output Log File
+2) Ask if user wants files revealed
