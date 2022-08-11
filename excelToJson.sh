@@ -37,6 +37,8 @@ if $canExecute = true ; then
     # Get script parent Directory so you can locate its helper file
     scriptPath=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+    # Scenario 2
+    source /Users/louris/Dev_Projects/Coding/Scripts/excelToJson/venv/bin/activate
 
     # # Main Scenario
     # venvPath="${scriptPath}/tempVenv$RANDOM"
@@ -48,8 +50,8 @@ if $canExecute = true ; then
 
     for xlsPath in "$@"
     do
-        command="${scriptPath}/excelToJsonHelper.py ${xlsPath}"
-        python3 $command
+        pyScript="${scriptPath}/excelToJsonHelper.py"
+        python3 "$pyScript" "$xlsPath"
     done
 
     deactivate
