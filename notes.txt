@@ -1,4 +1,3 @@
-1) Output Log File
-2) Ask if user wants files revealed
-3) Add reverse functionality (JSON to EXCEL)
-4) Add verbosity during execution
+1) Ask if user wants files revealed
+2) Add reverse functionality (JSON to EXCEL)
+3) Add verbosity during execution
