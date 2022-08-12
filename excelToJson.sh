@@ -37,6 +37,12 @@ if $canExecute = true ; then
     # Get script parent Directory so you can locate its helper file
     scriptPath=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+    # Create the log file to pass it to the python script
+    currentTime=`date +"%Y%m%d_%H%M%S"`
+    logFile="${scriptPath}/xlsToJason_${currentTime}.log"
+    touch "$logFile"
+    echo -e "Script executed on ${currentTime} \n\n" >> "$logFile"
+
     # Scenario 2
     source /Users/louris/Dev_Projects/Coding/Scripts/excelToJson/venv/bin/activate
 
@@ -51,7 +57,7 @@ if $canExecute = true ; then
     for xlsPath in "$@"
     do
         pyScript="${scriptPath}/excelToJsonHelper.py"
-        python3 "$pyScript" "$xlsPath"
+        python3 "$pyScript" "$xlsPath" "$logFile"
     done
 
     deactivate
@@ -59,8 +65,9 @@ if $canExecute = true ; then
     # # Main Scenario
     # rm -rf $venvPath
 
+    open -R ${logFile}
+
 else
     echo ""
     echo "Quiting...."
 fi
-
