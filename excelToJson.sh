@@ -39,7 +39,6 @@ if $canExecute = true ; then
     # Get script parent Directory so you can locate its helper file
     scriptPath=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-
     # Scenario 2
     source /Users/louris/Dev_Projects/Coding/Scripts/excelToJson/venv/bin/activate
 
@@ -50,8 +49,8 @@ if $canExecute = true ; then
     # source "${venvPath}/bin/activate"
     # echo "Installing dependencies..."
     # python3 -m pip install --upgrade pip
-    # python3 -m pip install pandas
-    # python3 -m pip install openpyxl
+    # requirementsFile="${scriptPath}/requirements.txt"
+    # python3 -m pip install -r "$requirementsFile"
 
     # Create the log file to pass it to the python script
     echo "Creating log file..."
