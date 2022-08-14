@@ -54,10 +54,12 @@ if $canExecute = true ; then
 
     # Create the log file to pass it to the python script
     echo "Creating log file..."
-    currentTime=`date +"%Y%m%d_%H%M%S"`
-    logFile="${scriptPath}/xlsToJason_${currentTime}.txt"
+    currentTimeFull=`date +"%Y%m%d_%H%M%S"`
+    logFile="${scriptPath}/xlsToJason_${currentTimeFull}.txt"
     touch "$logFile"
-    echo -e "Script executed on ${currentTime} \n\n" >> "$logFile"
+    currentDate=`date +"%d/%m/%Y"`
+    currentTime=`date +"%H:%M:%S"`
+    echo -e "Script executed on ${currentDate} at ${currentTime}\n\n" >> "$logFile"
 
     for xlsPath in "$@"
     do
