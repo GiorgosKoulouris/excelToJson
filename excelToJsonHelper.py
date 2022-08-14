@@ -7,8 +7,6 @@ import pandas as pd
 import sys
 import os
 import datetime
-import subprocess
-
 
 # Store xls full path
 xlsFilePath = sys.argv[1]
@@ -53,6 +51,8 @@ if sheetCount > 1:
     with open(logFilePath, 'a') as f:
         f.write("   Folder created: " + jsonFileParentDir + "\n")
 
+print("Converting " + xlsFileNameWithExtension + "...")
+
 # Iterate through sheets and create their respective JSON files
 for sheet in sheets:
     df = pd.read_excel(xlsFilePath, sheet_name=sheet)
@@ -78,6 +78,8 @@ for sheet in sheets:
             f.write("       " + jsonFile + "\n")
         else:
             f.write("   " + jsonFile + "\n")
+
+print ("Updated log file")
 
 # Append a new line to separate xls entries in log file
 with open(logFilePath, 'a') as f:

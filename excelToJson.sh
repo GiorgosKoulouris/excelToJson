@@ -2,6 +2,8 @@
 
 canExecute=true
 
+echo "Validating files..."
+
 # Check that there is at least one argument
 if [ "$#" -eq 0 ];
 then
@@ -37,22 +39,26 @@ if $canExecute = true ; then
     # Get script parent Directory so you can locate its helper file
     scriptPath=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-    # Create the log file to pass it to the python script
-    currentTime=`date +"%Y%m%d_%H%M%S"`
-    logFile="${scriptPath}/xlsToJason_${currentTime}.log"
-    touch "$logFile"
-    echo -e "Script executed on ${currentTime} \n\n" >> "$logFile"
 
     # Scenario 2
     source /Users/louris/Dev_Projects/Coding/Scripts/excelToJson/venv/bin/activate
 
     # # Main Scenario
+    # echo "Creating python environment..."
     # venvPath="${scriptPath}/tempVenv$RANDOM"
     # python3 -m venv $venvPath
     # source "${venvPath}/bin/activate"
+    # echo "Installing dependencies..."
     # python3 -m pip install --upgrade pip
     # python3 -m pip install pandas
     # python3 -m pip install openpyxl
+
+    # Create the log file to pass it to the python script
+    echo "Creating log file..."
+    currentTime=`date +"%Y%m%d_%H%M%S"`
+    logFile="${scriptPath}/xlsToJason_${currentTime}.txt"
+    touch "$logFile"
+    echo -e "Script executed on ${currentTime} \n\n" >> "$logFile"
 
     for xlsPath in "$@"
     do
@@ -63,6 +69,7 @@ if $canExecute = true ; then
     deactivate
 
     # # Main Scenario
+    # echo "Cleaning up..."
     # rm -rf $venvPath
 
     open -R ${logFile}
