@@ -1,5 +1,4 @@
 Add reverse functionality (JSON to EXCEL)
-Add verbosity during execution
 Check if tempVenv directory exists before creating the folder
 Add requirements.txt file
 Make Date/Time formatting in log file heading better
