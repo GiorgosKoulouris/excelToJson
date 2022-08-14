@@ -45,6 +45,11 @@ if $canExecute = true ; then
     # # Main Scenario
     # echo "Creating python environment..."
     # venvPath="${scriptPath}/tempVenv$RANDOM"
+    # # Check if a directory with the same name exists and rename venv folder if needed
+    # while [ -d "${venvPath}" ]
+    # do
+    #     venvPath="${scriptPath}/tempVenv$RANDOM"
+    # done
     # python3 -m venv $venvPath
     # source "${venvPath}/bin/activate"
     # echo "Installing dependencies..."
@@ -54,10 +59,12 @@ if $canExecute = true ; then
 
     # Create the log file to pass it to the python script
     echo "Creating log file..."
-    currentTime=`date +"%Y%m%d_%H%M%S"`
-    logFile="${scriptPath}/xlsToJason_${currentTime}.txt"
+    currentTimeFull=`date +"%Y%m%d_%H%M%S"`
+    logFile="${scriptPath}/xlsToJason_${currentTimeFull}.txt"
     touch "$logFile"
-    echo -e "Script executed on ${currentTime} \n\n" >> "$logFile"
+    currentDate=`date +"%d/%m/%Y"`
+    currentTime=`date +"%H:%M:%S"`
+    echo -e "Script executed on ${currentDate} at ${currentTime}\n\n" >> "$logFile"
 
     for xlsPath in "$@"
     do
@@ -69,7 +76,7 @@ if $canExecute = true ; then
 
     # # Main Scenario
     # echo "Cleaning up..."
-    # rm -rf $venvPath
+    # rm -rf "$venvPath"
 
     open -R ${logFile}
 
